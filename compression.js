@@ -15,16 +15,21 @@ let Compress = function (art) {
       if (string[i] === string[i-1]) {
         counter ++;
       } 
+      // //counter reaches 9 duplicates
+      // if (counter === 9 ) {    
+      //   this.add(i);
+      // }  
+      // different character shows up
+      if (string[i] !== string[i-1]) {    
+        this.add(i);
+        break;
+      } 
       // add chunk when last element
       if (i === string.length - 1) {
         this.addLast(i);
         break;
       }
-     // add chunk when: 
-     // different character shows up, counter reaches 10 duplicates
-      if (string[i] !== string[i-1] || counter === 10 ) {    
-        this.add(i);
-      }
+
     }
     // prevent bloat. If encoding increases length, return original string
     if (encoded.length > string.length) {
@@ -121,6 +126,7 @@ let Compress = function (art) {
         encoded += string[i-1] + counter;
       } 
     }
+    console.log(encoded, i, 'addingLast');
   }
 
   Compress.prototype.decode = function (code) {
@@ -160,9 +166,12 @@ var test0 = 'aaaaa334'
 var test = 'aaaabb5'
 
 var basic = ['a', 'aa', 'aaa', 'aaaa', 'aaaa1']
+var basic2 = ['aaaaaaaaaaa']; //11 a
+var basic3 = ['aaaaaaaaaaaaaa']; //14 a
 var edgeCasesMiddle = ['5566abc'] //back to back, count equals next
 var edgeCases = ['5566abc', 'aa6bb2abc', 'aaaa3'] //back to back, count equals next
 var edgeCasesEnding = ['5566', 'aa6bb2', 'aaaa3']
+
 
 var runTests = function (tests) {
   tests.forEach(function(test) {
@@ -172,8 +181,9 @@ var runTests = function (tests) {
   });
 }
 
-runTests(basic);
-runTests(edgeCasesEnding);
-runTests(edgeCasesMiddle);
+//runTests(basic);
+runTests(basic3);
+//runTests(edgeCasesEnding);
+//runTests(edgeCasesMiddle);
 // var decode = myEncoding.decode(code);
 // console.log(decode, 'decode');
