@@ -15,12 +15,12 @@ let Compress = function (art) {
       if (string[i] === string[i-1]) {
         counter ++;
       } 
-      // last element 
+      // add chunk when last element
       if (i === string.length - 1) {
         this.addLast(i);
         break;
       }
-     // conditions to add chunks: 
+     // add chunk when: 
      // different character shows up, counter reaches 10 duplicates
       if (string[i] !== string[i-1] || counter === 10 ) {    
         this.add(i);
@@ -45,7 +45,12 @@ let Compress = function (art) {
     } 
     // 2 duplicates (aabb) ==> add item twice
     else if (counter === 1) {
-      encoded += string[i-1] + string[i];     
+      console.log('duplicates');
+      if (this.countEqualsNext(i) || this.backToBack(i)) {
+        encoded += string[i-1] + '|' + string[i];
+      } else {
+        encoded += string[i-1] + string[i];
+      } 
     }
     // more than 2 duplicates (aaa) ==> add item + counter
     else {    
@@ -56,14 +61,15 @@ let Compress = function (art) {
       }
     }
     counter = 0; //reset counter
-    console.log(encoded, 'adding')
     return encoded;
   }
 
   // case: 5566 ==> 55|66
-  // add an escape character if you get back to back numbers
+  // case2: aa6 ==> aa|6
+  // add an escape character if number comes after a double
   Compress.prototype.backToBack = function (i) {
-    if (!isNaN(string[i-1]) && !isNaN(string[i])) {
+    var last = encoded[encoded.length - 1];
+    if (last === string[i] && !isNaN(string[i])) {
       return true;
     }
     return false;
@@ -79,13 +85,23 @@ let Compress = function (art) {
   }
 
   Compress.prototype.addLast = function (i) {
-    if (this.countEqualsNext(i)) {
+    if (this.countEqualsNext(i) || this.backToBack(i)) {
       encoded += string[i-1] + counter + '|' + string[i];
     }
-    // one unique character (abc) or two dups ==> add item
-    else if (counter === 0 || counter === 1) {
+    // one unique character (abc) or 2 duplicates (bb)
+    else if (counter === 0) {
       encoded += string[i];
     } 
+    // 2 duplicates (bb8)
+    else if (counter === 1) {
+      // case: bb8
+      if (string[i] !== string [i-1]) {
+        encoded += string[i-1] + string[i];
+      //case: bb
+      } else {
+        encoded += string[i];
+      }
+    }
     // more than 2 duplicates and last item is different: aaaa ==> aa2
     else if (string[i] !== string [i-1]) { 
       encoded += string[i-1] + counter + string[i]
@@ -104,7 +120,6 @@ let Compress = function (art) {
     
     for (var i = 0; i < code.length; i++) {
       if (printRepeats) {
-        console.log(copies, 'copies', i);
         while (copies > 2) {
           decode += parent;
           copies --;
@@ -121,7 +136,6 @@ let Compress = function (art) {
         printRepeats = true;
         parent = code[i];
         copies = parseInt(code[i+1]);
-        console.log(copies, 'adding copies')
         decode += code[i];
       }
 
@@ -133,8 +147,20 @@ let Compress = function (art) {
 
 var test0 = 'aaaaa334'
 var test = 'aaaabb5'
-var myEncoding = new Compress(test);
-var code = myEncoding.encode();
-console.log(code, 'code')
-var decode = myEncoding.decode(code);
-console.log(decode, 'decode');
+
+var basic = ['a', 'aa', 'aaa', 'aaaa', 'aaaa1']
+var edgeCasesMiddle = ['5566abc', 'aa6bb2abc', 'aaaa3'] //back to back, count equals next
+var edgeCasesEnding = ['5566', 'aa6bb2', 'aaaa3']
+
+var runTests = function (tests) {
+  tests.forEach(function(test) {
+    var myEncoding = new Compress(test);
+    var code = myEncoding.encode();
+    console.log( test, '===>', code)
+  });
+}
+
+//runTests(basic);
+runTests(edgeCasesMiddle);
+// var decode = myEncoding.decode(code);
+// console.log(decode, 'decode');
