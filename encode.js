@@ -1,10 +1,9 @@
-let Compress = function (art) {
+let Encode = function (art) {
   const string = art; 
   let encoded = '';
-  let decoded = '';
   let counter = 0;
 
-  Compress.prototype.encode = function () {
+  Encode.prototype.encode = function () {
     for (var i = 0; i < string.length; i++) {
       // first element
       if (i === 0) {
@@ -39,7 +38,7 @@ let Compress = function (art) {
     return encoded;
   }
 
-  Compress.prototype.add = function (i) {
+  Encode.prototype.add = function (i) {
     // one unique character (abc) ==> add item
     if (counter === 0) {
       if (this.countEqualsNext(i) || this.backToBack(i, i)) {
@@ -85,7 +84,7 @@ let Compress = function (art) {
   // case: 5566 ==> 55|66
   // case2: aa6 ==> aa|6
   // add an escape character if number comes after a double
-  Compress.prototype.backToBack = function (front, back) {
+  Encode.prototype.backToBack = function (front, back) {
     var last = encoded[encoded.length - 1];
     if (last === string[front] && !isNaN(string[back])) {
       return true;
@@ -95,14 +94,14 @@ let Compress = function (art) {
 
   //case: aaaaa3 ==> aa3|3
   //add an escape character if count equals next element
-  Compress.prototype.countEqualsNext = function (i) {
+  Encode.prototype.countEqualsNext = function (i) {
     if (counter === parseInt(string[i])) {
       return true;
     }
     return false;
   }
 
-  Compress.prototype.addLast = function (i) {
+  Encode.prototype.addLast = function (i) {
     // one unique character (abc)
     if (counter === 0) {
       encoded += string[i];
@@ -141,37 +140,6 @@ let Compress = function (art) {
     console.log(encoded, i, 'addingLast');
   }
 
-  Compress.prototype.decode = function (code) {
-    var decode = '';
-    var printRepeats = false;
-    var copies = 0;
-    var parent = ''
-    
-    for (var i = 0; i < code.length; i++) {
-      if (printRepeats) {
-        while (copies > 2) {
-          decode += parent;
-          copies --;
-        }
-        // reset
-        parent = '';
-        printRepeats = false;
-      } else {
-        decode += code[i];
-      }
-      // if you see 2 duplicates and the next item is a number: aa2
-      // toggle boolean to print duplicates for next round
-      if (!printRepeats && code[i] === code [i-1] && parseInt(code[i+1])) {
-        printRepeats = true;
-        parent = code[i];
-        copies = parseInt(code[i+1]);
-        decode += code[i];
-      }
-
-    }
-    return decode;
-  }
-
 }
 
 /*
@@ -204,7 +172,7 @@ const numbers_decode = ['55|66aa8bc', 'aa6|6bb|2', 'aa3|3']
 var runTests = function (tests, solutions) {
   var bool = true;
   tests.forEach(function(test, index) {
-    var myEncoding = new Compress(test);
+    var myEncoding = new Encode(test);
     var code = myEncoding.encode();
     if (code !== solutions[index]) {
       console.log(`This test case failed: ${test}`);
@@ -218,24 +186,12 @@ var runTests = function (tests, solutions) {
 var runEncode = function (tests) {
   var codes = [];
   tests.forEach(function(test, index) {
-    var myEncoding = new Compress(test);
+    var myEncoding = new Encode(test);
     var code = myEncoding.encode();
     codes.push(code);
   });
   return codes;
 }
-
-var runDecode = function (tests) {
-  var decodes = [];
-  tests.forEach(function(test, index) {
-    var myEncoding = new Compress(test);
-    var decode = myEncoding.decode();
-    decodes.push(decode);
-  });
-  return decodes;
-}
-
-runDecode(['a', 'aa', 'aa2', 'aa3'])
 
 //runTests(basic, basic_decode);  // ==> all tests passes
 //runTests(moreThan10, moreThan10_decode); // ==> all tests passed
