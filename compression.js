@@ -6,6 +6,7 @@ let Compress = function (art) {
 
   Compress.prototype.encode = function () {
     for (var i = 0; i < string.length; i++) {
+    console.log(i, counter);
       // first element
       if (i === 0) {
         encoded += string[i]; 
@@ -15,21 +16,20 @@ let Compress = function (art) {
       if (string[i] === string[i-1]) {
         counter ++;
       } 
-      // //counter reaches 9 duplicates
-      // if (counter === 9 ) {    
-      //   this.add(i);
-      // }  
+      //counter reaches 10 duplicates
+      if (counter === 10) {    
+        this.add(i);
+        continue;
+      }  
       // different character shows up
       if (string[i] !== string[i-1]) {    
         this.add(i);
-        break;
+        continue;
       } 
       // add chunk when last element
       if (i === string.length - 1) {
         this.addLast(i);
-        break;
       }
-
     }
     // prevent bloat. If encoding increases length, return original string
     if (encoded.length > string.length) {
@@ -50,6 +50,20 @@ let Compress = function (art) {
       }
     } 
     // 2 duplicates (aabb) ==> add item twice
+    else if (counter === 1) {
+      if (this.countEqualsNext(i) || this.backToBack(i-1, i)) {
+        encoded += string[i-1] + '|' + string[i];
+      } else {
+        encoded += string[i-1] + string[i];
+      } 
+    }
+    // counter === 10 ==> add and reset counter
+    else if (counter === 10) {
+      console.log('10th');
+      encoded += string[i-1] + (counter - 1) + string[i];
+    }
+
+
     else if (counter === 1) {
       if (this.countEqualsNext(i) || this.backToBack(i-1, i)) {
         encoded += string[i-1] + '|' + string[i];
@@ -104,7 +118,6 @@ let Compress = function (art) {
           encoded += string[i-1] + string[i];          
         }
       }
-
       //case: bb
       else {
         encoded += string[i];
@@ -166,7 +179,7 @@ var test0 = 'aaaaa334'
 var test = 'aaaabb5'
 
 var basic = ['a', 'aa', 'aaa', 'aaaa', 'aaaa1']
-var basic2 = ['aaaaaaaaaaa']; //11 a
+var basic2 = ['aaaaaaaaaaaa']; //12 a
 var basic3 = ['aaaaaaaaaaaaaa']; //14 a
 var edgeCasesMiddle = ['5566abc'] //back to back, count equals next
 var edgeCases = ['5566abc', 'aa6bb2abc', 'aaaa3'] //back to back, count equals next
