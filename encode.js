@@ -6,7 +6,6 @@ let Compress = function (art) {
 
   Compress.prototype.encode = function () {
     for (var i = 0; i < string.length; i++) {
-    console.log(i, counter);
       // first element
       if (i === 0) {
         encoded += string[i]; 
@@ -175,28 +174,72 @@ let Compress = function (art) {
 
 }
 
+/*
+  _            _       
+ | |          | |      
+ | |_ ___  ___| |_ ___ 
+ | __/ _ \/ __| __/ __|
+ | ||  __/\__ \ |_\__ \
+  \__\___||___/\__|___/
+  tests
+*/
+
 var test0 = 'aaaaa334'
 var test = 'aaaabb5'
 
-var basic = ['a', 'aa', 'aaa', 'aaaa', 'aaaa1']
-var basic2 = ['aaaaaaaaaaaa']; //12 a
-var basic3 = ['aaaaaaaaaaaaaa']; //14 a
-var edgeCasesMiddle = ['5566abc'] //back to back, count equals next
-var edgeCases = ['5566abc', 'aa6bb2abc', 'aaaa3'] //back to back, count equals next
-var edgeCasesEnding = ['5566', 'aa6bb2', 'aaaa3']
+const basic = ['a', 'aa', 'aaa', 'aaaa']
+const basic_decode = ['a', 'aa', 'aa2', 'aa3']
+
+// more than 10 duplicates
+const moreThan10 = ['aaaaaaaaaaaa', 'aaaaaaaaaaaaaa']; //12a and 14a
+const moreThan10_decode = ['aa9aa', 'aa9aa3' ];
+
+// Cases where input contains numbers and they do not indicate duplicates
+const numbers = ['5566aaaaaaaaabc', 'aaaaaaa6bb2', 'aaaa3' ] //back to back, count equals next
+const numbers_decode = ['55|66aa8bc', 'aa6|6bb|2', 'aa3|3']
+
+// Bloated output ==> should return original
 
 
-var runTests = function (tests) {
-  tests.forEach(function(test) {
+var runTests = function (tests, solutions) {
+  var bool = true;
+  tests.forEach(function(test, index) {
     var myEncoding = new Compress(test);
     var code = myEncoding.encode();
-    console.log( test, '===>', code)
+    if (code !== solutions[index]) {
+      console.log(`This test case failed: ${test}`);
+      bool = false;
+    }
   });
+  bool ? console.log('all tests passed') : console.log('some tests failed, try again')
+  return bool;
 }
 
-//runTests(basic);
-runTests(basic3);
-//runTests(edgeCasesEnding);
-//runTests(edgeCasesMiddle);
-// var decode = myEncoding.decode(code);
+var runEncode = function (tests) {
+  var codes = [];
+  tests.forEach(function(test, index) {
+    var myEncoding = new Compress(test);
+    var code = myEncoding.encode();
+    codes.push(code);
+  });
+  return codes;
+}
+
+var runDecode = function (tests) {
+  var decodes = [];
+  tests.forEach(function(test, index) {
+    var myEncoding = new Compress(test);
+    var decode = myEncoding.decode();
+    decodes.push(decode);
+  });
+  return decodes;
+}
+
+runDecode(['a', 'aa', 'aa2', 'aa3'])
+
+//runTests(basic, basic_decode);  // ==> all tests passes
+//runTests(moreThan10, moreThan10_decode); // ==> all tests passed
+//runTests(numbers, numbers_decode); // ==> all tests passed
+//console.log(runEncode (numbers));
+//var decode = myEncoding.decode(code);
 // console.log(decode, 'decode');
