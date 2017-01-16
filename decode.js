@@ -9,8 +9,8 @@ var Decode = function (string) {
     var parent = ''
     
     for (var i = 0; i < code.length; i++) {
-      // if you find an escape character between 2 numbers
-      if (code[i] === '|' && parseInt(code[i-1]) && parseInt(code[i+1])) {
+      // if you find an escape character before a number
+      if (code[i] === '|' && parseInt(code[i+1])) {
         continue;
       }
       if (printRepeats) {
@@ -49,4 +49,13 @@ var runDecode = function (tests) {
   return decodes;
 }
 
-runDecode(['a', 'aa', 'aa2', 'aa3'])
+runDecode(['a', 'aa', 'aa2', 'aa3']);
+runDecode(['aa9aa', 'aa9aa3']);
+runDecode(['55|66aa8bc', 'aa6|6bb|2', 'aa3|3']);
+// more than 10 duplicates
+const moreThan10 = ['aaaaaaaaaaaa', 'aaaaaaaaaaaaaa']; //12a and 14a
+const moreThan10_decode = ['aa9aa', 'aa9aa3'];
+
+// Cases where input contains numbers and they do not indicate duplicates
+const numbers = ['5566aaaaaaaaabc', 'aaaaaaa6bb2', 'aaaa3' ] //back to back, count equals next
+const numbers_decode = ['55|66aa8bc', 'aa6|6bb|2', 'aa3|3']
