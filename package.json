@@ -1,0 +1,19 @@
+{
+  "name": "plaid",
+  "version": "1.0.0",
+  "description": "ASCII images contain quite a bit of white space and contiguous repeated characters. My approach to encoding is to mark repeated characters as a number, reducing the number of characters and therefore the size.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/meijiao/plaid.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/meijiao/plaid/issues"
+  },
+  "homepage": "https://github.com/meijiao/plaid#readme"
+}
