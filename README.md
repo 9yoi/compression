@@ -49,8 +49,8 @@ Test cases are written in index.js for sample ascii art given in data.txt and al
 
 For sample artwork in data.txt containing 100 X 100 ASCII characters
 
-Input Size: 10,000 bytes
-Output Size: 5,582 bytes
+* Input Size: 10,000 bytes
+* Output Size: 5,582 bytes
 
 Size Reduction: 44%
 

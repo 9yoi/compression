@@ -20,7 +20,6 @@ const Decode = require('./decode.js');
     var code = myEncoding.encode();
     var myDecoding = new Decode(code);
     var decode = myDecoding.decode();
-    console.log(decode.length)
     var results = (art === decode);
     results ? console.log('Successful encoding of sample ascii art') : console.log('failed encoding of sample art');
     return results
