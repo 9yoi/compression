@@ -29,10 +29,11 @@ var Encode = function (art) {
         this.addLast(i);
       }
     }
+
     // prevent bloat. If encoding increases length, return original string
     if (encoded.length > string.length) {
-      console.log('Failed: Compression returned a longer string')
-      console.log('bloated output: ', encoded);
+      console.log('Compression created longer string ==>', encoded)
+      console.log('Returning original input :', string);
       return string;
     }
     return encoded;
@@ -59,7 +60,6 @@ var Encode = function (art) {
     else if (counter === 10) {
       encoded += string[i-1] + (counter - 1) + string[i];
     }
-
 
     else if (counter === 1) {
       if (this.countEqualsNext(i) || this.backToBack(i-1, i)) {
