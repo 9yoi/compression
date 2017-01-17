@@ -1,6 +1,6 @@
 var Decode = function (string) {
 
-  var code = string;
+  this.code = string;
 
   Decode.prototype.decode = function () {
     var decode = '';
@@ -8,9 +8,9 @@ var Decode = function (string) {
     var copies = 0;
     var parent = ''
     
-    for (var i = 0; i < code.length; i++) {
+    for (var i = 0; i < this.code.length; i++) {
       // if you find an escape character before a number
-      if (code[i] === '|' && parseInt(code[i+1])) {
+      if (this.code[i] === '|' && parseInt(this.code[i+1])) {
         continue;
       }
       if (printRepeats) {
@@ -22,15 +22,15 @@ var Decode = function (string) {
         parent = '';
         printRepeats = false;
       } else {
-        decode += code[i];
+        decode += this.code[i];
       }
       // if you see 2 duplicates and the next item is a number: aa2
       // toggle boolean to print duplicates for next round
-      if (!printRepeats && code[i] === code [i-1] && parseInt(code[i+1])) {
+      if (!printRepeats && this.code[i] === this.code [i-1] && parseInt(this.code[i+1])) {
         printRepeats = true;
-        parent = code[i];
-        copies = parseInt(code[i+1]);
-        decode += code[i];
+        parent = this.code[i];
+        copies = parseInt(this.code[i+1]);
+        decode += this.code[i];
       }
 
     }
