@@ -1,8 +1,8 @@
 var Decode = function (string) {
 
-  const code = string;
+  var code = string;
 
-  Decode.prototype.decode = function (code) {
+  Decode.prototype.decode = function () {
     var decode = '';
     var printRepeats = false;
     var copies = 0;
@@ -38,24 +38,4 @@ var Decode = function (string) {
   }
 }
 
-var runDecode = function (tests) {
-  var decodes = [];
-  tests.forEach(function(test, index) {
-    var myDecoding = new Decode();
-    var decode = myDecoding.decode(test);
-    decodes.push(decode);
-  });
-  console.log(decodes);
-  return decodes;
-}
-
-runDecode(['a', 'aa', 'aa2', 'aa3']);
-runDecode(['aa9aa', 'aa9aa3']);
-runDecode(['55|66aa8bc', 'aa6|6bb|2', 'aa3|3']);
-// more than 10 duplicates
-const moreThan10 = ['aaaaaaaaaaaa', 'aaaaaaaaaaaaaa']; //12a and 14a
-const moreThan10_decode = ['aa9aa', 'aa9aa3'];
-
-// Cases where input contains numbers and they do not indicate duplicates
-const numbers = ['5566aaaaaaaaabc', 'aaaaaaa6bb2', 'aaaa3' ] //back to back, count equals next
-const numbers_decode = ['55|66aa8bc', 'aa6|6bb|2', 'aa3|3']
+module.exports = Decode;
