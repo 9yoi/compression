@@ -20,6 +20,7 @@ const Decode = require('./decode.js');
     var code = myEncoding.encode();
     var myDecoding = new Decode(code);
     var decode = myDecoding.decode();
+    console.log(decode.length)
     var results = (art === decode);
     results ? console.log('Successful encoding of sample ascii art') : console.log('failed encoding of sample art');
     return results
@@ -30,7 +31,7 @@ const Decode = require('./decode.js');
 // ADDITIONAL TEST CASES
 
 // Basic test cases. Output ==>  ['a', 'aa', 'aa2', 'aa3', 'aa6']
-const basic = ['a', 'aa', 'aaa', 'aaaa', '       '];
+const basic = ['a', 'aa', 'aaa', 'aaaa', '       ', '5', '555555555555'];
 // More than 10 duplicates. Output ==> ['aa9aa', 'aa9aa3' ];
 const moreThan10 = ['aaaaaaaaaaaa', 'aaaaaaaaaaaaaa']; //12a and 14a
 // Cases where input contains numbers. Output ==> ['55|66aa8bc', 'aa6|6bb|2', 'aa3|3', 'aa4|33|4', 'aa3bb|5']
