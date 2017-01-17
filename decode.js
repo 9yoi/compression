@@ -10,7 +10,7 @@ var Decode = function (string) {
     
     for (var i = 0; i < code.length; i++) {
       // if you find an escape character before a number
-      if (code[i] === '|' && parseInt(code[i+1])) {
+      if (code[i] === '|') {
         continue;
       }
       if (printRepeats) {

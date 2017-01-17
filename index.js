@@ -1,30 +1,29 @@
 // dependencies: node, fs and code in other files
 const fs = require('fs');
 const Encode = require('./encode.js');
-const Decode = require('./decode.js')
+const Decode = require('./decode.js');
 
-// TEST GIVEN IMAGE
+//TEST GIVEN IMAGE
 (function (asciiFile) {
-  console.log('invoked');
   let art = '';
   // read sample ascii art into memory
   fs.readFile(asciiFile, 'ASCII', function (err,data) {
     if (err) {
       return console.log(err);
     }
-    art = data;
-    console.log('read ASCII art into memory');
+    art = JSON.stringify(data);
+    //console.log('read ASCII art into memory', art);
     testArt(art);
   });
 
   function testArt (art) {
-    console.log(art, 'art');
     var myEncoding = new Encode(art);
-    //encoded string
     var code = myEncoding.encode();
-    var myDecoding = new Decode();
-    var decode = myDecoding.decode(code);
-    var results = code === decode;
+    //console.log(code, 'code');
+    var myDecoding = new Decode(code);
+    var decode = myDecoding.decode();
+    console.log(decode, 'decode');
+    var results = (art === decode);
     results ? console.log('successful encoding') : console.log('failed encoding');
     return results
   }
@@ -37,6 +36,7 @@ var test = 'aaaabb5'
 
 const basic = ['a', 'aa', 'aaa', 'aaaa']
 const basic_decode = ['a', 'aa', 'aa2', 'aa3']
+const whiteSpace = ['       ']; // 7 spaces ==> '  6'
 
 // more than 10 duplicates
 const moreThan10 = ['aaaaaaaaaaaa', 'aaaaaaaaaaaaaa']; //12a and 14a
@@ -72,6 +72,7 @@ var runEncode = function (tests) {
   return codes;
 }
 
+//console.log(runEncode(whiteSpace));  // ==> all tests passes
 //runTests(basic, basic_decode);  // ==> all tests passes
 //runTests(moreThan10, moreThan10_decode); // ==> all tests passed
 //runTests(numbers, numbers_decode); // ==> all tests passed

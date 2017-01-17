@@ -80,12 +80,13 @@ var Encode = function (art) {
     return encoded;
   }
 
+  // add an escape character if there is a input number in the ASCII (number that does not indicate a duplicate in output) 
   // case: 5566 ==> 55|66
   // case2: aa6 ==> aa|6
-  // add an escape character if number comes after a double
   Encode.prototype.backToBack = function (front, back) {
     var last = encoded[encoded.length - 1];
-    if (last === string[front] && !isNaN(string[back])) {
+    //parseInt is needed to convert ' ' to 
+    if (last === string[front] && !isNaN(parseInt(string[back]))) {
       return true;
     }
     return false;
