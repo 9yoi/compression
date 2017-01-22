@@ -1,0 +1,39 @@
+**Written questions**
+
+Below are two example Plaid support requests. Please write a response in [Markdown][9] (or similar) for each as if you were a Product Support Engineer at Plaid. Feel free to use any publicly available resource (whether Plaid-related or not) when writing your responses. Pay close attention to grammar, formatting, and tone.
+
+Request one:
+
+> Hi Support,
+
+> I'm trying to get up-and-running with the API. I'm using the Go library but have been getting a weird HTTP 402 response code that I don't understand. Everything looks right to me and I've read through the docs.
+
+> Here's my code:
+
+> ```
+> client := plaid.NewClient("test_id", "test_secret", plaid.Tartan)
+
+> // POST /auth
+> postRes, mfaRes, err := client.AuthAddUser("plaid_test", "plaid_good", "", "amex", nil)
+> if err != nil {
+>     fmt.Println(err)
+> } else if mfaRes != nil {
+>     fmt.Println("MFA received");
+> } else {
+>     fmt.Println(postRes.Accounts)
+> }
+> ```
+
+> What am I doing wrong??
+
+Request two:
+
+>The docs seem to be wrong. I'm trying to add a auth user with the example the docs provide:
+
+> ```
+> curl -G https://api.plaid.com/auth -d client_id=test_id -d secret=test_secret -d type=chase -d username=plaid_test -d password=plaid_good
+> ```
+
+> but I'm getting a code 1000 error. Is there a problem with the API or are the docs just wrong?
+
+Please include both responses with your
