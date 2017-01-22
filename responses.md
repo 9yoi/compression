@@ -37,7 +37,6 @@ If I missed something and you're still experiencing difficulties, could you repl
 
 Thanks for your patience.
 
-Best,
 Mei
 
 
