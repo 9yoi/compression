@@ -6,7 +6,7 @@ Hi,
 
 I'm sorry to hear about the error.
 
-I wasn't able to pinpoint the specifics from looking at your code.  Did you see an accompanying Plaid error code? The 402 error usually maps to a 1200 or 1300 Plaid error code, many of which are related to mistakes in account information. Once you get that error code, there are instructions on [this page](https://support.plaid.com/customer/en/portal/topics/973215-error-code-resolution/articles) to resolve them, which you might helpful.
+I wasn't able to pinpoint the specifics from looking at your code.  Did you see an accompanying Plaid error code? The 402 error usually maps to a 1200 or 1300 Plaid error code, many of which are related to mistakes in account information. Once you get that error code, there are instructions on [this page](https://support.plaid.com/customer/en/portal/topics/973215-error-code-resolution/articles) to resolve them, which you might find helpful.
 
 If you're still experiencing difficulties, could you please paste the entire error message in your reply? That would help me to diagnose the issue. 
 
